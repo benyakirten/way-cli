@@ -1,3 +1,5 @@
+[![Unit Tests](https://github.com/benyakirten/way-cli/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/benyakirten/way-cli/actions/workflows/unit_tests.yml)
+
 # Table of Contents
 1. [What is this?](#what-am-i-looking-at)
 2. [How to use this](#how-to-use-this)
