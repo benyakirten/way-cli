@@ -14,19 +14,23 @@ Just call it on a folder name. There are three possible flags:
 * -l - int; limit how many results are retrieved. Default: -1 (infinite)
 * -w - string; set the base directory. Default: current working directory
 * -r - bool; retrieve relative paths instead of absolute paths. Default: false
+* -u - int; amount of directories to go up before beginning search. Default: 0
 
 NOTE: If any flags are set, the target folder name come after all flags
 
 ## Examples of usage
 ```
 way build
-way -r -l 5 -w /User/me node_modules
+way -r -l 5 -w /User/me -u 2 node_modules
 ```
 
 ## How do I compile this
-* Install the Golang runtime (https://go.dev)
-* Navigate to the folder with the project in it
-* Run: go build way.go
+If You feel like trusting me, the binary can be downloaded directly from GitHub by going to the latest release (or not, but caveat emptor with an older version). Otherwise:
+
+1. Clone the repository
+2. Install the Golang runtime (https://go.dev)
+3. Navigate to the folder with the project in it
+4. Run: go build way.go
 
 ## How do I add this to my path variables?
 * Open your terminal profile file (mine is .zshrc)
@@ -43,3 +47,4 @@ export PATH="$PATH/route/to/compiled/binary"
 
 ## Changelog
 * 1/15/2022: First release
+* Added the -u flag, allowing users to go up directories

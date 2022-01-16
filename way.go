@@ -8,18 +8,29 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 )
 
 func main() {
 	flag.Usage = customHelp
-	l, w, r := parseFlags()
+	l, w, r, u := parseFlags()
 
 	f := flag.Arg(0)
+
+	w = goUp(w, u)
 
 	res := collectResults(f, l, w, r)
 	for _, v := range res {
 		fmt.Println(v)
 	}
+}
+
+func goUp(p string, u int) string {
+	if u < 1 {
+		return p
+	}
+	index := strings.LastIndex(p, string(os.PathSeparator))
+	return goUp(p[:index], u-1)
 }
 
 func collectResults(f string, l int, w string, r bool) []string {
@@ -47,7 +58,7 @@ func collectResults(f string, l int, w string, r bool) []string {
 	return res
 }
 
-func parseFlags() (int, string, bool) {
+func parseFlags() (int, string, bool, int) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
@@ -55,9 +66,10 @@ func parseFlags() (int, string, bool) {
 	l := flag.Int("l", -1, "Set maximum number of results collected. Defaults to -1 (infinite)")
 	w := flag.String("w", cwd, "Start search from a particular absolute path. Defaults to current working directory")
 	r := flag.Bool("r", false, "Return relative paths. Defaults to false")
+	u := flag.Int("u", 0, "Amount of directories to go up before beginning search. Defaults to 0")
 	flag.Parse()
 
-	return *l, *w, *r
+	return *l, *w, *r, *u
 }
 
 func customHelp() {
@@ -69,5 +81,6 @@ func customHelp() {
 	fmt.Println("Possible flags:")
 	fmt.Println("-l (int) - Maximum amount of results collected. Default: -1 (infinite)")
 	fmt.Println("-w (str) - Starts search in a specific (absolute) path. Default: current working directory")
-	fmt.Println("-r (bool) - Gives relative paths instead of absolute paths")
+	fmt.Println("-r (bool) - Gives relative paths instead of absolute paths. Default: false")
+	fmt.Println("-u (int) - Number of folders to go up before beginning search. Default: 0")
 }
